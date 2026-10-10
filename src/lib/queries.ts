@@ -184,10 +184,35 @@ export async function ticketsByEmail(email: string) {
   );
 }
 
-export async function bumpHype(slug: string, by: number) {
-  const rows = await sql<{ id: number; hype: number }>(
-    `update events set hype = hype + $2 where slug = $1 and status = 'published' returning id, hype`,
-    [slug, by],
+/** Toggle this device's hype for an event. Returns the new total and whether the device is now hyped. */
+export async function toggleHype(slug: string, device: string) {
+  const client = await pool.connect();
+  try {
+    await client.query("begin");
+    const ev = await client.query<{ id: number }>(`select id from events where slug = $1 and status = 'published' for update`, [slug]);
+    if (!ev.rows[0]) {
+      await client.query("rollback");
+      return null;
+    }
+    const id = ev.rows[0].id;
+    const removed = await client.query(`delete from hypes where event_id = $1 and device_id = $2`, [id, device]);
+    const hyped = removed.rowCount === 0;
+    if (hyped) await client.query(`insert into hypes (event_id, device_id) values ($1, $2)`, [id, device]);
+    const row = await client.query<{ hype: number }>(`update events set hype = greatest(0, hype + $2) where id = $1 returning hype`, [id, hyped ? 1 : -1]);
+    await client.query("commit");
+    return { id, hype: row.rows[0].hype, hyped };
+  } catch (e) {
+    await client.query("rollback");
+    throw e;
+  } finally {
+    client.release();
+  }
+}
+
+export async function hypeState(slug: string, device: string | null) {
+  const rows = await sql<{ hype: number; hyped: boolean }>(
+    `select e.hype, exists(select 1 from hypes h where h.event_id = e.id and h.device_id = $2) as hyped from events e where e.slug = $1`,
+    [slug, device ?? ""],
   );
   return rows[0] ?? null;
 }

@@ -35,7 +35,7 @@ export function Takeover({ src, lines }: { src: string; lines: string[] }) {
       </div>
       <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[1600px] px-4 pb-14 md:px-8">
         {lines.map((l, i) => (
-          <span key={i} className="-mb-[0.1em] block overflow-hidden pb-[0.1em] pr-[0.12em]">
+          <span key={i} className="-mb-[0.2em] block overflow-hidden pb-[0.2em] pr-[0.12em]">
             <span data-line className={`display block text-[clamp(3rem,9vw,9.5rem)] leading-[0.94] ${i === lines.length - 1 ? "serif-i text-lime" : ""}`}>
               {l}
             </span>

@@ -61,3 +61,11 @@ create table if not exists updates (
 );
 
 create index if not exists updates_event_idx on updates (event_id, created_at desc);
+
+-- One hype per device per event. The device id lives in a long-lived cookie.
+create table if not exists hypes (
+  event_id   integer not null references events(id) on delete cascade,
+  device_id  text not null,
+  created_at timestamptz not null default now(),
+  primary key (event_id, device_id)
+);
