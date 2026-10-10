@@ -27,7 +27,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ slug: s
 
     // The ticket email is a nice-to-have; don't make the person wait for it.
     getEvent(slug)
-      .then((e) => e && sendMail({ to: input.email, ...ticketMail({ code, name: input.name, seats: input.seats, title: e.title, venue: e.venue, starts_at: e.starts_at, slug }) }))
+      .then((e) => e && sendMail({ to: input.email, ...ticketMail({ code, name: input.name, seats: input.seats, title: e.title, venue: e.venue, starts_at: e.starts_at, slug, cover: e.cover }) }))
       .catch((err) => console.error("ticket mail failed", err));
 
     return json({ code, emailed: true }, 201);

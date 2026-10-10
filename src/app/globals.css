@@ -170,7 +170,6 @@
     border-color: var(--color-lime);
     background: rgb(215 255 61 / 0.04);
   }
-  select.field option { background: var(--color-ink-2); }
 
   .live-dot {
     width: 8px;
@@ -207,3 +206,6 @@
   .grain, header, footer { display: none !important; }
   html, body { background: #fff; }
 }
+
+/* dark, thin scrollbars so the dialog and dropdowns don't get a bright white bar */
+* { scrollbar-width: thin; scrollbar-color: rgb(243 238 227 / 0.18) transparent; }
