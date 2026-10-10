@@ -74,7 +74,7 @@ export function CalendarView({ events, today }: { events: EventRow[]; today: str
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: dir * -60, opacity: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="display text-5xl md:text-7xl"
+                className="display pb-[0.08em] pr-[0.12em] text-5xl md:text-7xl"
               >
                 {MONTHS[view.m]} <span className="serif-i text-lime">{view.y}</span>
               </motion.h2>
