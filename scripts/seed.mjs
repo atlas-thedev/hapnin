@@ -47,7 +47,7 @@ const events = [
   {
     slug: "inter-house-athletics",
     title: "Inter-House Athletics Meet",
-    tagline: "Four houses. One trophy. Bragging rights for a year.",
+    tagline: "Four houses, one march past, bragging rights for a year.",
     category: "sports",
     venue: "Royal College Sports Complex",
     organizer: "Physical Education Dept.",
@@ -76,12 +76,12 @@ const events = [
       "The top eight school teams in the province face off in a knockout tournament. Expect sharp rebuttals and some very serious points of information.\n\nSeats are limited, so grab yours early.",
   },
   {
-    slug: "western-music-night",
-    title: "Western Music Night",
-    tagline: "Strings, brass and a drum solo you'll talk about.",
+    slug: "sanskruthi-cultural-night",
+    title: "Sanskruthi Cultural Night",
+    tagline: "Kandyan, low-country and a drum finale you'll still hear on Monday.",
     category: "music",
     venue: "Royal College Auditorium",
-    organizer: "Western Music Society",
+    organizer: "Oriental Music & Dance Society",
     starts_at: day(13, 18, 30),
     ends_at: day(13, 21, 30),
     cover: "/img/concert.webp",
@@ -89,7 +89,7 @@ const events = [
     price: 500,
     hype: 301,
     description:
-      "The school orchestra, the jazz band and the senior choir share the stage for one night. Proceeds go to new instruments for the junior section.\n\nDoors open at 6:00 PM.",
+      "Our dance troupe, the eastern music unit and the senior choir share the stage for one night. Proceeds go towards new costumes and drums for the junior troupe.\n\nDoors open at 6:00 PM.",
   },
   {
     slug: "big-match-26",
@@ -148,24 +148,24 @@ const events = [
     organizer: "Quiz Club",
     starts_at: day(-12, 15),
     ends_at: day(-12, 18),
-    cover: "/img/ict.webp",
+    cover: "/img/royal.webp",
     capacity: 120,
     hype: 64,
     description: "Six rounds of general knowledge, science and pop culture. Teams of three.",
   },
   {
-    slug: "swimming-gala",
-    title: "Swimming Gala",
-    tagline: "Splash first, ask questions later.",
+    slug: "royal-thomian-regatta",
+    title: "Royal–Thomian Regatta",
+    tagline: "Oars out on Beira Lake. Loudest bank wins.",
     category: "sports",
-    venue: "School Pool",
-    organizer: "Aquatics Club",
+    venue: "Beira Lake, Colombo 02",
+    organizer: "Rowing Club",
     starts_at: day(-25, 8),
     ends_at: day(-25, 14),
-    cover: "/img/track.webp",
+    cover: "/img/regatta.webp",
     capacity: 300,
     hype: 120,
-    description: "Annual inter-house swimming gala with relays, freestyle and the famous teachers' race.",
+    description: "Senior and junior pairs, fours and the main eights race against S. Thomas'. Bring a flag and get there early for a spot on the bank.",
   },
 ];
 
@@ -241,7 +241,7 @@ for (const u of updates) {
 // A handful of registrations so the dashboard isn't empty.
 const people = ["Kavindu Perera", "Sahan Jayasuriya", "Nethmi Fernando", "Dinuka Silva", "Ravindu Bandara", "Tharushi Wijesinghe"];
 let n = 0;
-for (const slug of ["btui-ict-day", "inter-house-athletics", "western-music-night", "big-match-26"]) {
+for (const slug of ["btui-ict-day", "inter-house-athletics", "sanskruthi-cultural-night", "big-match-26"]) {
   for (const name of people) {
     n++;
     await client.query(
