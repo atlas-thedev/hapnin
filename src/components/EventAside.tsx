@@ -98,7 +98,7 @@ export function EventAside({ event, site }: { event: EventRow; site: string }) {
       </div>
 
       <div className="grid grid-cols-3 gap-2">
-        <HypeButton slug={event.slug} initial={hype} onChange={setHype} className="col-span-3 justify-between !rounded-2xl !px-5 !py-4" />
+        <HypeButton slug={event.slug} initial={hype} onChange={setHype} className="col-span-3 !rounded-2xl !px-5 !py-4" />
         <a href={gcal(event, site)} target="_blank" rel="noreferrer" className="action-tile" data-cursor="Add">
           <svg viewBox="0 0 24 24" aria-hidden><rect x="3.5" y="5" width="17" height="15.5" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5" /></svg>
           Google Cal
