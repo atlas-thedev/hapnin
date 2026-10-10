@@ -1,0 +1,39 @@
+{
+  "name": "hapnin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hapnin — the command center for every school event.",
+  "scripts": {
+    "dev": "next dev -p 3600",
+    "build": "next build",
+    "start": "next start -p 3600",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:seed": "node scripts/seed.mjs",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "canvas-confetti": "^1.9.3",
+    "clsx": "^2.1.1",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.4",
+    "motion": "^12.23.0",
+    "next": "^15.5.27",
+    "pg": "^8.16.0",
+    "qrcode": "^1.5.4",
+    "react": "19.2",
+    "react-dom": "19.2",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.15.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.9.0"
+  }
+}
