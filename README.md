@@ -1,144 +1,163 @@
 # Hapnin
 
-**What's hapnin' at school.** Hapnin is an events hub for a school community: one place for announcements, event pages, a shared calendar, free online tickets and live updates while an event is running.
+What's hapnin' at school. An events site for a school: event pages, a calendar, free tickets with QR codes, and live score updates while something is running.
 
-Built for the **BTUI'26 Web Development** competition (Royal College Computer Society).
+I built this for the BTUI'26 web dev competition (Royal College Computer Society).
 
-**Live:** https://ss.playnative.fun
+Live: https://hapnin.playnative.fun
 
----
+## The problem
 
-## Why
+At school, info about an event is all over the place. Someone forwards a poster on WhatsApp, there's a Google Form for names, the time is on an Instagram story and the venue changes on the day. People miss things and organisers end up counting heads on paper.
 
-School events usually live in five places at once: a WhatsApp forward, a notice board photo, a Google Form, an Instagram story and someone's memory. Students miss things, organisers count heads on paper and parents never know what time the match ends. Hapnin puts the whole lifecycle in one link:
+So the idea is one link per event that covers everything from the announcement to the final score:
 
-1. **Announce** – organisers post an event and pinned announcements.
-2. **Plan** – everyone sees it on the calendar with a live countdown and can add it to Google Calendar / iCal.
-3. **Register** – students grab a free ticket with a QR code (capacity limits, no double bookings).
-4. **Check in** – organisers scan or type the ticket code at the door.
-5. **Follow live** – score updates and highlights stream to every open page in real time.
+1. Announce it (event page + pinned announcements)
+2. Put it on the calendar (countdown, Google Calendar / .ics)
+3. Register (free ticket with a QR code, capacity limits, no double bookings)
+4. Check people in at the door (scan the QR or type the code)
+5. Follow it live (updates show up on every open page without refreshing)
 
-## Features
+## What's in it
 
-**For students & parents**
-- Home page with what's next, a live feed, featured events and the latest announcements
-- Events list with category filters, search and upcoming / live / past views
-- Event pages: countdown, seats-left bar (updates live), venue map, related events, "hype" button
-- One-click registration → QR ticket, add to Google Calendar, download `.ics`, share
-- Month and agenda calendar views (multi-day events included)
-- Live page – every update from every running event, pushed over Server-Sent Events
-- "My tickets" – look up all your tickets by email; printable ticket page
+For students and parents:
 
-**For organisers** (`/admin`, password protected)
-- Create / edit / delete events (cover image, venue, capacity, price label, featured flag, status)
+- Home page: next event countdown, what's live, featured events, latest news
+- Events list with category filters, search, and upcoming / live / past
+- Event page: countdown, seats left (updates live), venue map, related events, a hype button
+- Register in one go and get a QR ticket, by email too
+- Month and agenda calendar
+- Live page with updates from every running event
+- My tickets: sign in with your email (we send you a 6 digit code, no passwords) and see all your tickets, upcoming and past
+
+For organisers (`/admin`, password protected):
+
+- Create, edit and delete events
 - Post, pin and remove announcements
-- Push live updates to an event (instantly appears on every open page)
-- Door check-in by ticket code or scanned QR link
-- Registrations table with CSV export
+- Push live updates to an event
+- Check-in at the door
+- See registrations and export them as CSV
 
-## Tech stack
+A couple of small rules I added after testing with friends:
 
-| Layer | What |
-| --- | --- |
-| Framework | Next.js 15 (App Router, server components, route handlers), React 19, TypeScript |
-| Styling | Tailwind CSS v4, custom design tokens |
-| Motion | GSAP 3 (ScrollTrigger, SplitText), Lenis smooth scroll, Motion for small UI transitions |
-| Database | PostgreSQL via `pg` (plain SQL, no ORM) |
-| Validation | zod |
-| Realtime | Server-Sent Events (`/api/stream`) with an in-process event bus |
-| Tickets | `qrcode` (SVG QR codes), canvas-confetti |
-| Hosting | Ubuntu VPS, PM2, Nginx reverse proxy, Let's Encrypt SSL |
+- **One hype per person.** It's tied to your account if you're signed in, otherwise to a cookie on that device. Tapping again takes it back.
+- **Tickets are private.** The first version let you look up tickets by typing any email, which meant anyone could see anyone's tickets. Now you have to sign in with a code sent to that email.
 
-Fonts: Bricolage Grotesque, Instrument Serif, Geist and Geist Mono.
+## Stack
 
-The visual direction came from studying recent award-winning sites (Awwwards Site of the Day picks) and the motion libraries they ship. Notes are in [`docs/design-research.md`](docs/design-research.md).
+- Next.js 15 (App Router) + React 19 + TypeScript
+- Tailwind CSS v4
+- GSAP (ScrollTrigger, SplitText), Lenis for smooth scroll, Motion for small UI bits
+- PostgreSQL with plain SQL through `pg` (no ORM)
+- zod for validating input
+- Server-Sent Events for the live stuff (`/api/stream`)
+- Resend for emails (sign-in codes and tickets)
+- `qrcode` for the QR codes
+- Hosted on a VPS with PM2 + Nginx, behind Cloudflare, SSL from Let's Encrypt
 
-## Project structure
+Fonts: Bricolage Grotesque, Instrument Serif, Geist, Geist Mono.
+
+Before designing anything I went through a bunch of recent Awwwards Site of the Day winners to see what they do with type and motion. My notes are in [docs/design-research.md](docs/design-research.md).
+
+Photos are real ones from Wikimedia Commons under open licences. Who took what is listed on the [/credits](https://hapnin.playnative.fun/credits) page (and in `src/lib/credits.ts`).
+
+## Folders
 
 ```
-db/schema.sql          tables: events, registrations, announcements, updates, hypes
-scripts/migrate.mjs    applies the schema
-scripts/seed.mjs       demo data (dates are relative to "now")
-src/app/               pages + API route handlers
-src/components/        UI and motion components
-src/lib/               db pool, queries, auth, validation, realtime bus
-public/img/            event cover images
+db/schema.sql        all the tables
+scripts/migrate.mjs  runs schema.sql
+scripts/seed.mjs     demo events (dates are relative to today so the demo never goes stale)
+src/app/             pages and API routes
+src/components/      UI + animation components
+src/lib/             db, queries, sessions, email, validation, realtime bus
+public/img/          event photos (webp, with -sm versions for cards)
 ```
+
+Tables: `events`, `registrations`, `announcements`, `updates`, `hypes`, `users`, `login_codes`, `sessions`.
 
 ## API
 
-All endpoints return JSON unless noted. Admin endpoints need the session cookie from `/api/admin/login`.
+Everything returns JSON unless it says otherwise. Admin routes need the admin cookie from `/api/admin/login`.
 
-| Method | Path | Notes |
+| Method | Path | What it does |
 | --- | --- | --- |
-| GET | `/api/health` | DB health check |
-| GET | `/api/events` | `?category=&q=&when=upcoming\|live\|past\|all` |
-| POST | `/api/events` | admin – create event |
-| GET / PATCH / DELETE | `/api/events/:slug` | PATCH/DELETE are admin only |
-| POST | `/api/events/:slug/register` | `{ name, email, phone?, school?, grade?, role }` → ticket. Capacity is checked inside a row lock; duplicate emails are rejected; rate limited |
-| GET / POST | `/api/events/:slug/hype` | current total + whether this device hyped; POST toggles (one hype per device, cookie based) |
-| GET | `/api/events/:slug/ics` | calendar file (`text/calendar`) |
+| GET | `/api/health` | checks the DB |
+| GET | `/api/events` | list, `?category=&q=&when=upcoming\|live\|past\|all` |
+| POST | `/api/events` | admin, create |
+| GET / PATCH / DELETE | `/api/events/:slug` | PATCH and DELETE are admin |
+| POST | `/api/events/:slug/register` | get a ticket. Seats are checked inside a row lock so two people can't grab the last seat. Same email twice is rejected. Rate limited |
+| GET / POST | `/api/events/:slug/hype` | GET = count + whether you hyped, POST = toggle |
+| GET | `/api/events/:slug/ics` | calendar file |
 | GET / POST | `/api/events/:slug/updates` | live updates (POST is admin) |
 | DELETE | `/api/updates/:id` | admin |
 | GET / POST | `/api/announcements` | POST is admin |
-| PATCH / DELETE | `/api/announcements/:id` | admin – pin / remove |
-| GET | `/api/tickets?email=` | tickets for an email |
-| GET | `/api/tickets/:code` | single ticket |
-| GET | `/api/stream` | Server-Sent Events: `update`, `announcement`, `seats`, `hype` |
-| POST | `/api/admin/login` / `logout` | password login, signed HTTP-only cookie |
-| GET | `/api/admin/registrations` | `?format=csv` for export |
+| PATCH / DELETE | `/api/announcements/:id` | admin, pin / remove |
+| POST | `/api/auth/start` | `{ email }`, emails a 6 digit code |
+| POST | `/api/auth/verify` | `{ email, code }`, sets the session cookie |
+| GET | `/api/auth/me` | who's signed in (or `null`) |
+| POST | `/api/auth/logout` | |
+| GET | `/api/tickets` | your tickets, needs sign-in |
+| GET | `/api/tickets/:code` | one ticket |
+| GET | `/api/tickets/:code/qr` | QR code as PNG (used in the email) |
+| GET | `/api/stream` | SSE: `update`, `announcement`, `seats`, `hype` |
+| POST | `/api/admin/login`, `/api/admin/logout` | admin password login |
+| GET | `/api/admin/registrations` | add `?format=csv` to download |
 | POST | `/api/admin/checkin` | `{ code }` |
 
-## Running locally
+About the sign-in codes: they're stored hashed, expire after 10 minutes and die after 5 wrong tries. Sessions last 30 days in an http-only cookie.
 
-Requirements: Node 20+ and PostgreSQL 14+.
+## Running it yourself
+
+You need Node 20+ and PostgreSQL 14+.
 
 ```bash
-git clone <repo-url> hapnin && cd hapnin
+git clone https://github.com/<you>/hapnin.git
+cd hapnin
 npm install
-
-# create a database
 createdb hapnin
-
-# configure
 cp .env.example .env
-#   DATABASE_URL=postgres://user:pass@localhost:5432/hapnin
-#   ADMIN_PASSWORD=whatever-you-like
-#   SESSION_SECRET=any-long-random-string
-#   NEXT_PUBLIC_SITE_URL=http://localhost:3600
-
-npm run db:migrate
-npm run db:seed      # optional demo data
-
-npm run dev          # http://localhost:3600
 ```
 
-Production build:
+Fill in `.env`:
+
+```
+DATABASE_URL=postgres://user:pass@localhost:5432/hapnin
+ADMIN_PASSWORD=pick-something
+SESSION_SECRET=any-long-random-string
+NEXT_PUBLIC_SITE_URL=http://localhost:3600
+RESEND_API_KEY=re_...            # from resend.com, needs a verified domain
+MAIL_FROM=Hapnin <tickets@yourdomain.com>
+```
+
+Then:
 
 ```bash
-npm run build
-npm start            # or: pm2 start ecosystem.config.cjs
+npm run db:migrate
+npm run db:seed    # optional, adds demo events
+npm run dev        # http://localhost:3600
 ```
 
-The organiser dashboard is at `/admin` and uses `ADMIN_PASSWORD`.
+If you leave `RESEND_API_KEY` empty, the sign-in code gets printed in the server console instead of emailed, which is handy for local dev.
 
-## Deployment notes
+For production: `npm run build` then `npm start` (or `pm2 start ecosystem.config.cjs`).
 
-The live site runs on a single VPS:
+## Deploy notes
 
-- `next start` on `127.0.0.1:3600`, kept alive by PM2 (`ecosystem.config.cjs`, `TZ=Asia/Colombo`)
-- Nginx proxies the domain to the app. The `/api/stream` location has `proxy_buffering off` so SSE messages arrive instantly
-- SSL by certbot
+- The app runs on `127.0.0.1:3600` with PM2 (`TZ=Asia/Colombo` so times are right)
+- Nginx sits in front. `/api/stream` has `proxy_buffering off` or the live updates get stuck in a buffer
+- Static files and images get long cache headers, gzip is on
 
-Because the realtime bus lives in memory, run a single app instance (or swap the bus for Postgres `LISTEN/NOTIFY` / Redis if scaling out).
+The live update bus is in memory, so it only works with one app instance. If this ever needed to scale I'd move it to Postgres `LISTEN/NOTIFY` or Redis.
 
-## Accessibility & performance
+## Accessibility and speed
 
-- Respects `prefers-reduced-motion` (smooth scroll and heavy animations are switched off)
-- Semantic landmarks, focus states and labelled form controls
-- Responsive from 360px phones up to wide desktops
-- Images served as WebP with small variants for cards
+- Turns off smooth scroll and the heavy animations if you have `prefers-reduced-motion` on
+- Proper landmarks, labels and visible focus states
+- Tested from 360px phones up to big desktops
+- Images are WebP, lazy loaded below the fold, with smaller versions for cards
 
----
+## Things I'd add next
 
-Made by Navidu Sathsara for BTUI'26.
+- Proper QR scanning with the camera on the admin check-in page
+- Paid tickets
+- Organiser accounts per club instead of one admin password
