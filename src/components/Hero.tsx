@@ -137,13 +137,13 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
 function SpinBadge() {
   const text = "Tickets ✱ Calendar ✱ Live updates ✱ ";
   return (
-    <span data-fade aria-hidden className="absolute right-0 top-[0.04em] block h-[0.95em] w-[0.95em] md:right-[4%] md:top-[0.1em] md:h-[0.8em] md:w-[0.8em]">
+    <span data-fade aria-hidden className="absolute right-0 top-[0.04em] block h-[0.82em] w-[0.82em] md:right-[4%] md:top-[0.1em] md:h-[0.8em] md:w-[0.8em]">
       <svg viewBox="0 0 100 100" className="h-full w-full animate-[spin_14s_linear_infinite] motion-reduce:animate-none">
         <defs>
           <path id="badge-circle" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" />
         </defs>
         <text className="fill-paper/70 font-mono uppercase" style={{ fontSize: 9.4, letterSpacing: "0.12em" }}>
-          <textPath href="#badge-circle">{text}</textPath>
+          <textPath href="#badge-circle" textLength="238" lengthAdjust="spacing">{text}</textPath>
         </text>
       </svg>
       <span className="absolute inset-[30%] flex items-center justify-center rounded-full bg-lime text-[0.32em] leading-none text-ink">✱</span>

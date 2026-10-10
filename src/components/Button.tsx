@@ -16,7 +16,7 @@ const base =
 function Label({ children }: { children: ReactNode }) {
   // Text rolls up on hover: the second copy slides into place.
   return (
-    <span className="relative -my-2 block overflow-hidden py-2">
+    <span className="relative -mx-3 -my-3 block overflow-hidden px-3 py-3">
       <span className="flex items-center gap-2 whitespace-nowrap transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-full">{children}</span>
       <span aria-hidden className="absolute inset-0 flex items-center gap-2 whitespace-nowrap translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
         {children}
