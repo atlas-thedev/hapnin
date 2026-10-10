@@ -89,7 +89,12 @@ export function Footer() {
         ))}
       </div>
       <div className="mx-auto flex max-w-[1600px] justify-between border-t border-line py-5 text-xs text-mute">
-        <span>© {new Date().getFullYear()} Hapnin</span>
+        <span>
+          © {new Date().getFullYear()} Hapnin ·{" "}
+          <TLink href="/credits" className="hover:text-paper">
+            Photo credits
+          </TLink>
+        </span>
         <span className="font-mono uppercase tracking-widest">Colombo, Sri Lanka</span>
       </div>
     </footer>

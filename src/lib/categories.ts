@@ -12,6 +12,6 @@ export const CATEGORIES: Record<Category, { label: string; color: string; emoji:
 
 export const CATEGORY_KEYS = Object.keys(CATEGORIES) as Category[];
 
-export const COVERS = ["track", "debate", "ict", "cricket", "concert", "science", "art", "drama"].map((n) => `/img/${n}.webp`);
+export const COVERS = ["track", "debate", "ict", "cricket", "concert", "science", "art", "drama", "royal", "regatta"].map((n) => `/img/${n}.webp`);
 
 export const thumb = (cover: string) => (cover.startsWith("/img/") ? cover.replace(/\.webp$/, "-sm.webp") : cover);
