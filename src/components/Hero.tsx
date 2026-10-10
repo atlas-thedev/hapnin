@@ -71,10 +71,11 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
         <span>Season 2026</span>
       </div>
 
-      <h1 data-headline className="display mx-auto w-full max-w-[1600px] text-[clamp(4.2rem,14.5vw,16rem)] leading-[0.82]">
+      <h1 data-headline className="display mx-auto w-full max-w-[1600px] relative text-[20vw] leading-[0.84] md:text-[clamp(4.2rem,14.5vw,16rem)] md:leading-[0.82]">
         <span data-split className="block">What&apos;s</span>
+        <SpinBadge />
         <span className="flex items-center gap-[0.12em]">
-          <span data-pill className="relative inline-block h-[0.72em] w-[1.75em] shrink-0 overflow-hidden rounded-full" data-cursor="Look">
+          <span data-pill className="relative inline-block h-[0.66em] w-[1.2em] shrink-0 md:h-[0.72em] md:w-[1.75em] overflow-hidden rounded-full" data-cursor="Look">
             {covers.map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <img key={src} data-pill-img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ zIndex: i === 0 ? 2 : 0 }} />
@@ -89,10 +90,10 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
 
       <div className="mx-auto grid w-full max-w-[1600px] items-end gap-8 md:grid-cols-[1fr_auto]">
         <div data-fade className="max-w-md">
-          <p className="text-lg leading-relaxed text-paper/75">
+          <p className="text-base leading-relaxed text-paper/75 md:text-lg">
             Debates, sports meets, exhibitions and concerts in one place. Find what&apos;s on, grab a ticket and follow along live.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 md:mt-7">
             <Magnetic>
               <ButtonLink href="/events" data-cursor="Go">
                 Explore events <Arrow />
@@ -129,5 +130,23 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
         )}
       </div>
     </section>
+  );
+}
+
+/** Slowly spinning sticker that sits beside the first headline line. */
+function SpinBadge() {
+  const text = "Tickets ✱ Calendar ✱ Live updates ✱ ";
+  return (
+    <span data-fade aria-hidden className="absolute right-0 top-[0.04em] block h-[0.95em] w-[0.95em] md:right-[4%] md:top-[0.1em] md:h-[0.8em] md:w-[0.8em]">
+      <svg viewBox="0 0 100 100" className="h-full w-full animate-[spin_14s_linear_infinite] motion-reduce:animate-none">
+        <defs>
+          <path id="badge-circle" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0" />
+        </defs>
+        <text className="fill-paper/70 font-mono uppercase" style={{ fontSize: 9.4, letterSpacing: "0.12em" }}>
+          <textPath href="#badge-circle">{text}</textPath>
+        </text>
+      </svg>
+      <span className="absolute inset-[30%] flex items-center justify-center rounded-full bg-lime text-[0.32em] leading-none text-ink">✱</span>
+    </span>
   );
 }
