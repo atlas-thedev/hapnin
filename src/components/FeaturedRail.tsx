@@ -44,11 +44,11 @@ export function FeaturedRail({ events }: { events: EventRow[] }) {
   );
 
   return (
-    <section ref={root} className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-16">
-      <div className="mx-auto mb-10 flex w-full max-w-[1600px] items-end justify-between gap-6 px-4 md:px-8">
+    <section ref={root} className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-16 md:py-10">
+      <div className="mx-auto mb-10 flex md:mb-[min(2.5rem,4svh)] w-full max-w-[1600px] items-end justify-between gap-6 px-4 md:px-8">
         <div>
           <p className="eyebrow mb-4">(03) Featured</p>
-          <SplitReveal as="h2" by="words" className="display text-[clamp(2.8rem,7vw,7rem)]">
+          <SplitReveal as="h2" by="words" className="display text-[clamp(2.8rem,min(7vw,12svh),7rem)]">
             The big ones this season
           </SplitReveal>
         </div>
@@ -58,7 +58,7 @@ export function FeaturedRail({ events }: { events: EventRow[] }) {
       </div>
       <div ref={track} className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 md:snap-none md:overflow-visible md:px-8">
         {events.map((e) => (
-          <div key={e.id} data-card className="w-[82vw] shrink-0 snap-start md:w-[min(34rem,38vw)]">
+          <div key={e.id} data-card className="w-[82vw] shrink-0 snap-start md:w-[min(34rem,38vw,calc((100svh_-_16rem)*0.8))]">
             <EventCard event={e} size="lg" />
           </div>
         ))}

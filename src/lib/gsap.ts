@@ -25,3 +25,9 @@ export function onReady(cb: () => void) {
 }
 
 export { gsap, ScrollTrigger, SplitText, useGSAP };
+
+/** SplitText masks clip at the line box; tight display leading cuts off accents, descenders and italics. Give them breathing room. */
+export function loosenMasks(masks: Element[] | undefined) {
+  if (!masks?.length) return;
+  gsap.set(masks, { padding: "0.14em 0.08em 0.2em", margin: "-0.14em -0.08em -0.2em" });
+}

@@ -19,8 +19,8 @@ const events = [
     category: "science",
     venue: "Royal College Gymnasium",
     organizer: "Science Society",
-    starts_at: new Date(now - 2 * H),
-    ends_at: new Date(now + 6 * H),
+    starts_at: day(-1, 9, 0),
+    ends_at: day(1, 17, 0),
     cover: "/img/science.webp",
     capacity: 600,
     featured: true,
@@ -172,7 +172,7 @@ const events = [
 const announcements = [
   {
     title: "Science Expo is live right now",
-    body: "Doors stay open all day. Follow the live feed for stall highlights and judging results.",
+    body: "Stalls are open 9 AM – 5 PM every day. Follow the live feed for stall highlights and judging results.",
     priority: "urgent",
     pinned: true,
     slug: "science-expo-26",

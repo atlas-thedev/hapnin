@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ElementType, type ReactNode } from "react";
-import { gsap, onReady, reducedMotion, SplitText, useGSAP } from "@/lib/gsap";
+import { gsap, loosenMasks, onReady, reducedMotion, SplitText, useGSAP } from "@/lib/gsap";
 
 type Props = {
   children: ReactNode;
@@ -29,6 +29,7 @@ export function SplitReveal({ children, as: Tag = "div", className, delay = 0, t
         mask: "lines",
         autoSplit: true,
         onSplit(self) {
+          loosenMasks(self.masks);
           const targets = by === "chars" ? self.chars : by === "words" ? self.words : self.lines;
           const tween = gsap.from(targets, {
             yPercent: 115,

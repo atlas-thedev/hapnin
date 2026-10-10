@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { motion, AnimatePresence } from "motion/react";
 
-export function HypeButton({ slug, initial, onChange }: { slug: string; initial: number; onChange?: (n: number) => void }) {
+export function HypeButton({ slug, initial, onChange, className }: { slug: string; initial: number; onChange?: (n: number) => void; className?: string }) {
   const [count, setCount] = useState(initial);
   const [pops, setPops] = useState<number[]>([]);
   const queued = useRef(0);
@@ -56,7 +56,7 @@ export function HypeButton({ slug, initial, onChange }: { slug: string; initial:
       whileTap={{ scale: 0.9 }}
       onClick={hype}
       data-cursor="Hype!"
-      className="relative flex items-center gap-3 rounded-full border border-line px-5 py-3 transition-colors hover:border-lime hover:text-lime"
+      className={`relative flex items-center gap-3 rounded-full border border-line px-5 py-3 transition-colors hover:border-lime hover:text-lime ${className ?? ""}`}
       aria-label={`Hype this event (${count})`}
     >
       <span className="text-xl">🔥</span>

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import type { EventRow } from "@/lib/types";
 import { fmtDay, fmtTime } from "@/lib/time";
-import { gsap, onReady, reducedMotion, SplitText, useGSAP } from "@/lib/gsap";
+import { gsap, onReady, reducedMotion, loosenMasks, SplitText, useGSAP } from "@/lib/gsap";
 import { ButtonLink, Arrow } from "./Button";
 import { Magnetic } from "./Magnetic";
 import { Countdown } from "./Countdown";
@@ -33,6 +33,7 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
       if (reducedMotion()) return;
 
       const split = SplitText.create(q("[data-split]"), { type: "chars", mask: "chars" });
+      loosenMasks(split.masks);
       const tl = gsap.timeline({ paused: true });
       tl.from(split.chars, { yPercent: 120, duration: 1.4, stagger: 0.035, ease: "expo.out" })
         .from(q("[data-pill]"), { width: 0, duration: 1.4, ease: "expo.inOut" }, 0.2)

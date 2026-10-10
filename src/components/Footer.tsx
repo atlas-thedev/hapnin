@@ -37,7 +37,7 @@ export function Footer() {
         yPercent: 100,
         stagger: 0.04,
         ease: "none",
-        scrollTrigger: { trigger: "[data-wordmark]", start: "top bottom", end: "bottom bottom", scrub: 0.6 },
+        scrollTrigger: { trigger: "[data-wordmark]", start: "top bottom", end: "clamp(bottom bottom)", scrub: 0.6, refreshPriority: -1 },
       });
     },
     { scope: ref, dependencies: [pathname] },

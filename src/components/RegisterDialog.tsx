@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import QRCode from "qrcode";
 import confetti from "canvas-confetti";
 import { useLenis } from "lenis/react";
@@ -29,6 +30,8 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
   const [busy, setBusy] = useState(false);
   const [ticket, setTicket] = useState<{ code: string; qr: string } | null>(null);
   const lenis = useLenis();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const first = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -83,10 +86,12 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
     }
   }
 
-  return (
+  // Portal to <body> so a transformed/sticky ancestor can't trap the fixed overlay under the nav.
+  if (!mounted) return null;
+  return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-[70] flex items-end justify-center md:items-center" initial={{ opacity: 1 }} exit={{ opacity: 1 }}>
+        <motion.div className="fixed inset-0 z-[90] flex items-end justify-center md:items-center" initial={{ opacity: 1 }} exit={{ opacity: 1 }}>
           <motion.div
             className="absolute inset-0 bg-ink/70 backdrop-blur-md"
             initial={{ opacity: 0 }}
@@ -99,7 +104,7 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
             aria-modal="true"
             aria-label={`Register for ${event.title}`}
             data-lenis-prevent
-            className="relative max-h-[92svh] w-full max-w-xl overflow-y-auto rounded-t-[32px] border border-line bg-ink-2 p-6 md:rounded-[32px] md:p-8"
+            className="relative max-h-[94svh] w-full max-w-xl overflow-y-auto overscroll-contain rounded-t-[32px] border border-line bg-ink-2 p-6 pb-0 md:max-h-[calc(100svh_-_3rem)] md:rounded-[32px] md:p-8 md:pb-0"
             initial={{ y: "100%", opacity: 0.6 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
@@ -111,7 +116,7 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
 
             <AnimatePresence mode="wait">
               {ticket ? (
-                <motion.div key="done" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center text-center">
+                <motion.div key="done" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center pb-6 text-center md:pb-8">
                   <p className="eyebrow">You&apos;re in</p>
                   <h2 className="display mt-3 text-5xl">
                     See you <span className="serif-i text-lime">there.</span>
@@ -149,7 +154,7 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
                     {fmtDay(event.starts_at)} · {fmtTime(event.starts_at)} · {event.venue}
                   </p>
 
-                  <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                  <div className="mt-6 grid gap-3 sm:grid-cols-2">
                     <label className="sm:col-span-2">
                       <span className="eyebrow mb-2 block">Full name</span>
                       <input ref={first} required minLength={2} className="field" value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Kavindu Perera" autoComplete="name" />
@@ -209,16 +214,19 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
                     )}
                   </AnimatePresence>
 
-                  <Button type="submit" disabled={busy} className="mt-6 w-full !py-4 text-base">
+                  <div className="sticky bottom-0 -mx-6 mt-4 bg-gradient-to-t from-ink-2 from-70% to-transparent px-6 pb-6 pt-4 md:-mx-8 md:px-8 md:pb-8">
+                  <Button type="submit" disabled={busy} className="w-full !py-4 text-base">
                     {busy ? "Getting your ticket…" : event.price ? `Reserve · ${priceLabel(event.price * form.seats)} at the gate` : "Get my free ticket"}
                   </Button>
                   <p className="mt-3 text-center text-xs text-mute">One registration per email. Paid events are settled at the entrance.</p>
+                  </div>
                 </motion.form>
               )}
             </AnimatePresence>
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

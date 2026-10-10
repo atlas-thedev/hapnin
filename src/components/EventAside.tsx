@@ -4,7 +4,7 @@ import { useCallback, useState } from "react";
 import { motion } from "motion/react";
 import clsx from "clsx";
 import type { EventRow } from "@/lib/types";
-import { fmtLong, fmtRange, fmtTime, phaseOf } from "@/lib/time";
+import { fmtDay, fmtLong, fmtRange, fmtTime, phaseOf } from "@/lib/time";
 import { useStream } from "@/lib/useStream";
 import { Countdown } from "./Countdown";
 import { Button } from "./Button";
@@ -97,19 +97,25 @@ export function EventAside({ event, site }: { event: EventRow; site: string }) {
         </Button>
       </div>
 
-      <div className="flex flex-wrap gap-2">
-        <HypeButton slug={event.slug} initial={hype} onChange={setHype} />
-        <a href={gcal(event, site)} target="_blank" rel="noreferrer" className="rounded-full border border-line px-4 py-3 text-sm hover:border-paper/50">
-          + Google Calendar
+      <div className="grid grid-cols-3 gap-2">
+        <HypeButton slug={event.slug} initial={hype} onChange={setHype} className="col-span-3 justify-between !rounded-2xl !px-5 !py-4" />
+        <a href={gcal(event, site)} target="_blank" rel="noreferrer" className="action-tile" data-cursor="Add">
+          <svg viewBox="0 0 24 24" aria-hidden><rect x="3.5" y="5" width="17" height="15.5" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5" /></svg>
+          Google Cal
         </a>
-        <a href={`/api/events/${event.slug}/ics`} className="rounded-full border border-line px-4 py-3 text-sm hover:border-paper/50">
-          .ics
+        <a href={`/api/events/${event.slug}/ics`} className="action-tile" data-cursor="Save">
+          <svg viewBox="0 0 24 24" aria-hidden><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
+          iCal / .ics
         </a>
-        <button onClick={share} className="rounded-full border border-line px-4 py-3 text-sm hover:border-paper/50">
-          {copied ? "Link copied ✓" : "Share"}
+        <button onClick={share} className="action-tile" data-cursor="Share">
+          <svg viewBox="0 0 24 24" aria-hidden>{copied ? <path d="m5 12.5 4.5 4.5L19 7.5" /> : <path d="M9.5 14.5 14.5 9.5M10.5 6.5l1.8-1.8a4 4 0 0 1 5.7 5.7l-1.8 1.8M13.5 17.5l-1.8 1.8a4 4 0 0 1-5.7-5.7l1.8-1.8" />}</svg>
+          {copied ? "Copied" : "Copy link"}
         </button>
       </div>
-      <p className="font-mono text-[11px] uppercase tracking-widest text-mute">Doors close at {fmtTime(event.ends_at)}</p>
+      <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-mute">
+        <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+        {phase === "live" ? "Doors close" : "Ends"} {fmtDay(event.ends_at)} · {fmtTime(event.ends_at)}
+      </p>
 
       <RegisterDialog event={event} open={open} onClose={close} seatsLeft={left} />
     </aside>
