@@ -29,7 +29,7 @@ export default async function EventPage({ params }: { params: Params }) {
   ]);
   const more = related.filter((e) => e.id !== event.id).slice(0, 3);
   const phase = phaseOf(event);
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://ss.playnative.fun";
+  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://hapnin.playnative.fun";
 
   return (
     <article>

@@ -47,7 +47,7 @@ export function Manifesto({ tokens, stats }: { tokens: Token[]; stats: { label: 
             return (
               <span key={i} data-w className="relative mr-[0.25em] inline-block h-[0.8em] w-[1.5em] overflow-hidden rounded-full align-[-0.08em]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={t.img} alt={t.alt} className="h-full w-full object-cover" />
+                <img src={t.img} alt={t.alt} loading="lazy" decoding="async" className="h-full w-full object-cover" />
               </span>
             );
           return (

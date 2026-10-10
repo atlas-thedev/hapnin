@@ -30,7 +30,7 @@ export function Takeover({ src, lines }: { src: string; lines: string[] }) {
     <section ref={root} className="relative h-[100svh] overflow-hidden">
       <div data-frame className="absolute inset-0 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img data-img src={src} alt="" className="h-full w-full object-cover" />
+        <img data-img src={src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
         <div data-shade className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
       </div>
       <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[1600px] px-4 pb-14 md:px-8">

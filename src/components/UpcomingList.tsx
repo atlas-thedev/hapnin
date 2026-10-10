@@ -86,6 +86,8 @@ export function UpcomingList({ events }: { events: EventRow[] }) {
             key={e.id}
             src={thumb(e.cover)}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover transition-[clip-path] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{ clipPath: active === i ? "inset(0 0 0 0)" : "inset(100% 0 0 0)" }}
           />

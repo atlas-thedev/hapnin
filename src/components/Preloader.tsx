@@ -16,7 +16,7 @@ export function Preloader() {
     document.documentElement.style.overflow = "hidden";
 
     const start = performance.now();
-    const duration = 1900;
+    const duration = 1200;
     let raf = 0;
     const tick = (t: number) => {
       const p = Math.min(1, (t - start) / duration);

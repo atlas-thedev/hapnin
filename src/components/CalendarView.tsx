@@ -173,7 +173,7 @@ export function CalendarView({ events, today }: { events: EventRow[]; today: str
               <li key={e.id}>
                 <TLink href={`/events/${e.slug}`} className="group flex items-center gap-5 rounded-[22px] border border-line p-4 transition-colors hover:border-paper/40">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={thumb(e.cover)} alt="" className="h-20 w-28 rounded-xl object-cover" />
+                  <img src={thumb(e.cover)} alt="" loading="lazy" className="h-20 w-28 rounded-xl object-cover" />
                   <div className="min-w-0">
                     <p className="font-mono text-[11px] uppercase tracking-widest text-mute">{fmtRange(e.starts_at, e.ends_at)}</p>
                     <p className="display truncate text-2xl group-hover:text-lime">{e.title}</p>
@@ -205,7 +205,7 @@ export function CalendarView({ events, today }: { events: EventRow[]; today: str
                 <TLink key={e.id} href={`/events/${e.slug}`} data-cursor="View" className="group block overflow-hidden rounded-[22px] border border-line bg-ink-2">
                   <div className="relative h-36 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={thumb(e.cover)} alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src={thumb(e.cover)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <span className="chip absolute left-3 top-3 bg-ink/70">
                       <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORIES[e.category].color }} />
                       {CATEGORIES[e.category].label}

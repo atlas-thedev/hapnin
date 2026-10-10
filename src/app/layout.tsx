@@ -9,11 +9,11 @@ import { Cursor } from "@/components/Cursor";
 import { Preloader } from "@/components/Preloader";
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
-const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument", display: "swap" });
+const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", style: "italic", variable: "--font-instrument", display: "swap" });
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
 
-const site = process.env.NEXT_PUBLIC_SITE_URL || "https://ss.playnative.fun";
+const site = process.env.NEXT_PUBLIC_SITE_URL || "https://hapnin.playnative.fun";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site),

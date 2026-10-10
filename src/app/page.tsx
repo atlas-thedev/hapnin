@@ -19,7 +19,7 @@ import { TLink } from "@/components/PageTransition";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://ss.playnative.fun";
+  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://hapnin.playnative.fun";
   const [featured, upcoming, next, live, announcements, updates, s] = await Promise.all([
     featuredEvents(),
     listEvents({ when: "upcoming", limit: 7 }),
@@ -41,7 +41,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero next={next} covers={COVERS.map(thumb)} liveCount={live.length} />
+      <Hero next={next} covers={COVERS.slice(0, 6).map(thumb)} liveCount={live.length} />
 
       <Marquee items={["Debates", "Big matches", "Concerts", "Expos", "Drama", "Sports meets", "Quiz nights"]} />
 
@@ -65,7 +65,7 @@ export default async function Home() {
         ]}
       />
 
-      <Takeover src="/img/cricket.webp" lines={["Every debate.", "Every big match.", "One place."]} />
+      <Takeover src="/img/royal.webp" lines={["Every debate.", "Every big match.", "One place."]} />
 
       {featured.length > 0 && <FeaturedRail events={featured} />}
 

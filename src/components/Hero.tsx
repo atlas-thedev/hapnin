@@ -78,7 +78,7 @@ export function Hero({ next, covers, liveCount }: { next: EventRow | null; cover
           <span data-pill className="relative inline-block h-[0.66em] w-[1.2em] shrink-0 md:h-[0.72em] md:w-[1.75em] overflow-hidden rounded-full" data-cursor="Look">
             {covers.map((src, i) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={src} data-pill-img src={src} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ zIndex: i === 0 ? 2 : 0 }} />
+              <img key={src} data-pill-img src={src} alt="" fetchPriority={i === 0 ? "high" : "low"} decoding="async" className="absolute inset-0 h-full w-full object-cover" style={{ zIndex: i === 0 ? 2 : 0 }} />
             ))}
           </span>
           <span data-split className="serif-i text-lime">hapnin&apos;</span>
