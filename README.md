@@ -56,7 +56,7 @@ The visual direction came from studying recent award-winning sites (Awwwards Sit
 ## Project structure
 
 ```
-db/schema.sql          tables: events, registrations, announcements, updates
+db/schema.sql          tables: events, registrations, announcements, updates, hypes
 scripts/migrate.mjs    applies the schema
 scripts/seed.mjs       demo data (dates are relative to "now")
 src/app/               pages + API route handlers
@@ -76,7 +76,7 @@ All endpoints return JSON unless noted. Admin endpoints need the session cookie 
 | POST | `/api/events` | admin – create event |
 | GET / PATCH / DELETE | `/api/events/:slug` | PATCH/DELETE are admin only |
 | POST | `/api/events/:slug/register` | `{ name, email, phone?, school?, grade?, role }` → ticket. Capacity is checked inside a row lock; duplicate emails are rejected; rate limited |
-| POST | `/api/events/:slug/hype` | +1 hype |
+| GET / POST | `/api/events/:slug/hype` | current total + whether this device hyped; POST toggles (one hype per device, cookie based) |
 | GET | `/api/events/:slug/ics` | calendar file (`text/calendar`) |
 | GET / POST | `/api/events/:slug/updates` | live updates (POST is admin) |
 | DELETE | `/api/updates/:id` | admin |
