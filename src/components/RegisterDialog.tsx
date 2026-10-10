@@ -33,12 +33,21 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   const first = useRef<HTMLInputElement>(null);
+  const [account, setAccount] = useState<{ email: string; name: string | null } | null>(null);
 
   useEffect(() => {
     if (!open) return;
     lenis?.stop();
     const saved = localStorage.getItem("hapnin:profile");
     if (saved) setForm((f) => ({ ...f, ...JSON.parse(saved), seats: 1 }));
+    // Signed in? Book under the account email.
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then(({ user }) => {
+        setAccount(user);
+        if (user) setForm((f) => ({ ...f, email: user.email, name: f.name || user.name || "" }));
+      })
+      .catch(() => {});
     setTimeout(() => first.current?.focus(), 350);
     const esc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", esc);
@@ -136,7 +145,7 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
                       notch="bg-ink-2"
                     />
                   </motion.div>
-                  <p className="max-w-sm text-sm text-paper/60">Saved to this device. You can also find it any time under My tickets using {form.email}.</p>
+                  <p className="max-w-sm text-sm text-paper/60">We&apos;ve emailed it to {form.email} too. Sign in under My tickets with that email to see all your passes.</p>
                   <div className="mt-6 flex gap-3">
                     <TLink href={`/tickets/${ticket.code}`} className="rounded-full bg-lime px-5 py-3 text-sm font-medium text-ink">
                       Open ticket
@@ -161,7 +170,8 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
                     </label>
                     <label className="sm:col-span-2">
                       <span className="eyebrow mb-2 block">Email</span>
-                      <input required type="email" className="field" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" autoComplete="email" />
+                      <input required type="email" className={`field ${account ? "opacity-60" : ""}`} value={form.email} readOnly={Boolean(account)} onChange={(e) => set("email", e.target.value)} placeholder="you@example.com" autoComplete="email" />
+                      {account && <span className="mt-1.5 block text-xs text-mute">Signed in. Your ticket goes to this email.</span>}
                     </label>
                     <label>
                       <span className="eyebrow mb-2 block">I&apos;m a</span>

@@ -16,7 +16,7 @@ export default async function TicketPage({ params }: { params: Promise<{ code: s
   const t = await getTicket(code);
   if (!t) notFound();
 
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://ss.playnative.fun";
+  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://hapnin.playnative.fun";
   const qr = await QRCode.toString(`${site}/tickets/${t.code}`, { type: "svg", margin: 0, color: { dark: "#0f0e0c", light: "#00000000" } });
 
   return (

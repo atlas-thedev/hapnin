@@ -1,12 +1,12 @@
-import { z } from "zod";
-import { clientIp, fail, json, rateLimit } from "@/lib/http";
+import { fail, json } from "@/lib/http";
 import { ticketsByEmail } from "@/lib/queries";
+import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
-  if (!rateLimit(`tickets:${clientIp(req)}`, 20)) return fail("Too many lookups, try again soon", 429);
-  const email = z.string().email().safeParse(new URL(req.url).searchParams.get("email"));
-  if (!email.success) return fail("Enter a valid email");
-  return json({ tickets: await ticketsByEmail(email.data) });
+// Used to take ?email=, which meant anyone could list anyone's tickets. Now you sign in first.
+export async function GET() {
+  const user = await currentUser();
+  if (!user) return fail("Sign in to see your tickets", 401);
+  return json({ user, tickets: await ticketsByEmail(user.email) });
 }

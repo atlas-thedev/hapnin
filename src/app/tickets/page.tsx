@@ -8,7 +8,7 @@ export default function TicketsPage() {
   return (
     <>
       <PageHeader index="T" eyebrow="Your passes" title="My" accent="tickets.">
-        Enter the email you registered with to pull up every ticket and its QR code.
+        Sign in with the email you registered with. Every ticket and its QR code, in one place.
       </PageHeader>
       <div className="mx-auto max-w-4xl px-4 pb-32 md:px-8">
         <TicketLookup />
