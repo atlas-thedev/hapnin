@@ -18,7 +18,7 @@ function Label({ children }: { children: ReactNode }) {
   return (
     <span className="relative -mx-3 -my-3 block overflow-hidden px-3 py-3">
       <span className="flex items-center gap-2 whitespace-nowrap transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-[220%]">{children}</span>
-      <span aria-hidden className="absolute inset-0 flex items-center gap-2 whitespace-nowrap translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
+      <span aria-hidden className="absolute inset-0 flex items-center gap-2 whitespace-nowrap px-3 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
         {children}
       </span>
     </span>
