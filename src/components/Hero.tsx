@@ -146,7 +146,14 @@ function SpinBadge() {
           <textPath href="#badge-circle" textLength="238" lengthAdjust="spacing">{text}</textPath>
         </text>
       </svg>
-      <span className="absolute inset-[30%] flex items-center justify-center rounded-full bg-lime text-[0.32em] leading-none text-ink">✱</span>
+      <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
+        <circle cx="50" cy="50" r="19" className="fill-lime" />
+        <g transform="translate(50 50)" className="stroke-ink" strokeWidth="5.5" strokeLinecap="round">
+          <path d="M0-10V10" />
+          <path d="M0-10V10" transform="rotate(60)" />
+          <path d="M0-10V10" transform="rotate(120)" />
+        </g>
+      </svg>
     </span>
   );
 }

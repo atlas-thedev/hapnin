@@ -52,7 +52,7 @@ export function Preloader() {
           <div>
             <div className="display text-[13vw] leading-none md:text-[9vw]">
               all the
-              <span className="relative ml-[0.25em] inline-block h-[0.9em] overflow-hidden align-bottom">
+              <span className="relative -mb-[0.22em] ml-[0.25em] inline-block h-[1.18em] overflow-hidden pr-[0.12em] align-bottom leading-[1.18]">
                 <AnimatePresence mode="popLayout">
                   <motion.span
                     key={word}
