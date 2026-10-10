@@ -8,6 +8,7 @@ import { CATEGORIES, CATEGORY_KEYS, COVERS, thumb } from "@/lib/categories";
 import { fmtRange, phaseOf } from "@/lib/time";
 import { Button } from "../Button";
 import { api, fromLocalInput, toLocalInput } from "./api";
+import { Select } from "../Select";
 
 type Draft = {
   title: string;
@@ -160,20 +161,20 @@ export function EventsAdmin({ events, onChange }: { events: EventRow[]; onChange
                   <textarea rows={5} className="field" value={editing.draft.description} onChange={(e) => set("description", e.target.value)} />
                 </Field>
                 <Field label="Category">
-                  <select className="field" value={editing.draft.category} onChange={(e) => set("category", e.target.value)}>
+                  <Select value={editing.draft.category} onChange={(v) => set("category", v)}>
                     {CATEGORY_KEYS.map((k) => (
                       <option key={k} value={k}>
                         {CATEGORIES[k].label}
                       </option>
                     ))}
-                  </select>
+                  </Select>
                 </Field>
                 <Field label="Status">
-                  <select className="field" value={editing.draft.status} onChange={(e) => set("status", e.target.value)}>
+                  <Select value={editing.draft.status} onChange={(v) => set("status", v)}>
                     <option value="published">Published</option>
                     <option value="draft">Draft</option>
                     <option value="cancelled">Cancelled</option>
-                  </select>
+                  </Select>
                 </Field>
                 <Field label="Venue">
                   <input required className="field" value={editing.draft.venue} onChange={(e) => set("venue", e.target.value)} />

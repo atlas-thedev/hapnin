@@ -8,6 +8,7 @@ import { PRIORITY } from "../AnnouncementList";
 import { Button } from "../Button";
 import { Field } from "./EventsAdmin";
 import { api } from "./api";
+import { Select } from "../Select";
 
 export function AnnouncementsAdmin({ items, events, onChange }: { items: Announcement[]; events: EventRow[]; onChange: () => void }) {
   const [form, setForm] = useState({ title: "", body: "", priority: "normal", pinned: false, event_id: "" });
@@ -41,21 +42,21 @@ export function AnnouncementsAdmin({ items, events, onChange }: { items: Announc
         </Field>
         <div className="grid grid-cols-2 gap-3">
           <Field label="Priority">
-            <select className="field" value={form.priority} onChange={(e) => setForm({ ...form, priority: e.target.value })}>
+            <Select value={form.priority} onChange={(v) => setForm({ ...form, priority: v })}>
               <option value="normal">Notice</option>
               <option value="important">Important</option>
               <option value="urgent">Urgent</option>
-            </select>
+            </Select>
           </Field>
           <Field label="Event">
-            <select className="field" value={form.event_id} onChange={(e) => setForm({ ...form, event_id: e.target.value })}>
+            <Select value={form.event_id} onChange={(v) => setForm({ ...form, event_id: v })}>
               <option value="">None</option>
               {events.map((e) => (
                 <option key={e.id} value={e.id}>
                   {e.title}
                 </option>
               ))}
-            </select>
+            </Select>
           </Field>
         </div>
         <label className="flex items-center gap-3 text-sm">

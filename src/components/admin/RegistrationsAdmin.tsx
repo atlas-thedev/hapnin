@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { EventRow } from "@/lib/types";
 import { fmtDay } from "@/lib/time";
 import { api } from "./api";
+import { Select } from "../Select";
 
 type Row = { code: string; name: string; email: string; role: string; seats: number; school: string | null; grade: string | null; checked_in_at: string | null; created_at: string; event_title: string };
 
@@ -26,14 +27,14 @@ export function RegistrationsAdmin({ events }: { events: EventRow[] }) {
   return (
     <div>
       <div className="mb-6 flex flex-wrap items-center gap-3">
-        <select className="field !w-auto" value={slug} onChange={(e) => setSlug(e.target.value)}>
+        <Select className="!w-auto min-w-56" value={slug} onChange={(v) => setSlug(v)}>
           <option value="">All events</option>
           {events.map((e) => (
             <option key={e.id} value={e.slug}>
               {e.title}
             </option>
           ))}
-        </select>
+        </Select>
         <input className="field !w-auto flex-1" placeholder="Search name, email or code" value={q} onChange={(e) => setQ(e.target.value)} />
         <a href={`/api/admin/registrations?format=csv${slug ? `&event=${slug}` : ""}`} className="rounded-full bg-lime px-5 py-3 text-sm font-medium text-ink">
           Export CSV

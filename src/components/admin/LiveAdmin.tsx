@@ -7,6 +7,7 @@ import { COVERS, thumb } from "@/lib/categories";
 import { Button } from "../Button";
 import { Field } from "./EventsAdmin";
 import { api } from "./api";
+import { Select } from "../Select";
 
 export function LiveAdmin({ updates, events, onChange }: { updates: LiveUpdate[]; events: EventRow[]; onChange: () => void }) {
   const sorted = [...events].sort((a, b) => {
@@ -42,34 +43,34 @@ export function LiveAdmin({ updates, events, onChange }: { updates: LiveUpdate[]
         <p className="eyebrow">Post a live update</p>
         <p className="text-sm text-mute">Goes out instantly to everyone watching the event page and the live feed.</p>
         <Field label="Event">
-          <select className="field" value={slug} onChange={(e) => setSlug(e.target.value)}>
+          <Select value={slug} onChange={(v) => setSlug(v)}>
             {sorted.map((e) => (
               <option key={e.id} value={e.slug}>
                 {phaseOf(e) === "live" ? "● " : ""}
                 {e.title}
               </option>
             ))}
-          </select>
+          </Select>
         </Field>
         <Field label="Type">
-          <select className="field" value={kind} onChange={(e) => setKind(e.target.value)}>
+          <Select value={kind} onChange={(v) => setKind(v)}>
             <option value="update">Update</option>
             <option value="score">Score</option>
             <option value="highlight">Highlight</option>
-          </select>
+          </Select>
         </Field>
         <Field label="Message">
           <textarea required rows={4} className="field" value={body} onChange={(e) => setBody(e.target.value)} placeholder="Blue house takes the 4×100 relay!" />
         </Field>
         <Field label="Photo (optional)">
-          <select className="field" value={image} onChange={(e) => setImage(e.target.value)}>
+          <Select value={image} onChange={(v) => setImage(v)}>
             <option value="">No photo</option>
             {COVERS.map((c) => (
               <option key={c} value={thumb(c)}>
                 {c.split("/").pop()}
               </option>
             ))}
-          </select>
+          </Select>
         </Field>
         {error && <p className="text-sm text-[#ff9a9a]">{error}</p>}
         <Button type="submit" disabled={busy || !slug} className="w-full">

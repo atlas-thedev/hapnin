@@ -13,6 +13,7 @@ import { TicketStub } from "./TicketStub";
 import { Button } from "./Button";
 import { TLink } from "./PageTransition";
 import { priceLabel } from "./EventCard";
+import { Select } from "./Select";
 
 type Form = { name: string; email: string; phone: string; school: string; grade: string; role: string; seats: number };
 const EMPTY: Form = { name: "", email: "", phone: "", school: "", grade: "", role: "student", seats: 1 };
@@ -175,12 +176,12 @@ export function RegisterDialog({ event, open, onClose, seatsLeft }: { event: Eve
                     </label>
                     <label>
                       <span className="eyebrow mb-2 block">I&apos;m a</span>
-                      <select className="field" value={form.role} onChange={(e) => set("role", e.target.value)}>
+                      <Select value={form.role} onChange={(v) => set("role", v)}>
                         <option value="student">Student</option>
                         <option value="parent">Parent</option>
                         <option value="teacher">Teacher</option>
                         <option value="guest">Guest</option>
-                      </select>
+                      </Select>
                     </label>
                     <label>
                       <span className="eyebrow mb-2 block">Phone (optional)</span>
