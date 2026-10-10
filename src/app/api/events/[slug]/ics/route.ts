@@ -9,7 +9,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
   const e = await getEvent((await params).slug);
   if (!e) return new Response("Not found", { status: 404 });
 
-  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://ss.playnative.fun";
+  const site = process.env.NEXT_PUBLIC_SITE_URL || "https://hapnin.playnative.fun";
   const ics = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
