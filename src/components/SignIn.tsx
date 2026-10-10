@@ -69,7 +69,7 @@ export function SignIn({ onSignedIn, intro }: Props) {
   };
 
   return (
-    <div className="mx-auto max-w-md rounded-[28px] border border-line bg-ink-2 p-6 md:p-8">
+    <div className="w-full max-w-xl rounded-[28px] border border-line bg-ink-2 p-6 md:p-10">
       <AnimatePresence mode="wait" initial={false}>
         {step === "email" ? (
           <motion.form
