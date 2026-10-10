@@ -69,3 +69,30 @@ create table if not exists hypes (
   created_at timestamptz not null default now(),
   primary key (event_id, device_id)
 );
+
+-- Accounts are just a verified email. No passwords: you sign in with a code we email you.
+create table if not exists users (
+  id         serial primary key,
+  email      text not null,
+  name       text,
+  created_at timestamptz not null default now()
+);
+create unique index if not exists users_email_key on users (lower(email));
+
+create table if not exists login_codes (
+  id         serial primary key,
+  email      text not null,
+  code_hash  text not null,
+  attempts   integer not null default 0,
+  expires_at timestamptz not null,
+  used_at    timestamptz,
+  created_at timestamptz not null default now()
+);
+create index if not exists login_codes_email_idx on login_codes (lower(email), created_at desc);
+
+create table if not exists sessions (
+  token_hash text primary key,
+  user_id    integer not null references users (id) on delete cascade,
+  expires_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
