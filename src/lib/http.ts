@@ -12,6 +12,7 @@ export async function requireAdmin() {
 }
 
 // Very small in-memory limiter — good enough for a single instance.
+// server එක restart උනොත් ගණන් reset වෙනවා, ඒත් මේ project එකට ඒ ඇති
 const hits = new Map<string, { n: number; reset: number }>();
 export function rateLimit(key: string, limit = 10, windowMs = 60_000) {
   const now = Date.now();

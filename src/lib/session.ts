@@ -5,10 +5,11 @@ import { sql } from "./db";
 export const SESSION_COOKIE = "hapnin_session";
 const SESSION_DAYS = 30;
 const CODE_MINUTES = 10;
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 5; // වැරදි කෝඩ් 5ක් ගැහුවොත් ඒ කෝඩ් එක මැරෙනවා, අලුත් එකක් ඉල්ලන්න ඕන
 
 export type User = { id: number; email: string; name: string | null };
 
+// DB එකේ කෝඩ් එක plain විදිහට තියන්නේ නෑ, hash එක විතරයි
 const sha = (s: string) => crypto.createHash("sha256").update(s).digest("hex");
 
 /** Six digits, no leading-zero surprises when people type it. */

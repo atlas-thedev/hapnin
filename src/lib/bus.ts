@@ -6,6 +6,7 @@ export type BusMessage =
   | { type: "hype"; eventId: number; payload: { hype: number } }
   | { type: "seats"; eventId: number; payload: { taken: number } };
 
+// dev එකේදී hot reload වෙද්දි bus එක දෙපාරක් හැදෙන එක නවත්තන්න globalThis එකේ තියාගන්නවා
 const g = globalThis as unknown as { hapninBus?: EventEmitter };
 const bus = g.hapninBus ?? new EventEmitter();
 bus.setMaxListeners(0);

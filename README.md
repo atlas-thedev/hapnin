@@ -4,6 +4,8 @@ What's hapnin' at school. An events site for a school: event pages, a calendar, 
 
 I built this for the BTUI'26 web dev competition (Royal College Computer Society).
 
+> ඉස්කෝලේ events ගැන විස්තර WhatsApp, Instagram, notice board වල විසිරිලා තියෙන එක නවත්තන්න හදපු site එකක්. Event එකක් announce කරන එකේ ඉඳන් ටිකට්, check-in, live score දක්වා ඔක්කොම එක ලින්ක් එකකින්.
+
 Live: https://hapnin.playnative.fun
 
 ## The problem

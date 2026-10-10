@@ -25,6 +25,7 @@ export async function GET(req: Request) {
         if (eventId && "eventId" in msg && msg.eventId !== eventId) return;
         send(msg.type, "eventId" in msg ? { eventId: msg.eventId, ...(msg.payload as object) } : msg.payload);
       });
+      // තත්පර 25න් 25ට ping එකක් යවනවා, නැත්නම් nginx / cloudflare connection එක කපනවා
       const ping = setInterval(() => send("ping", Date.now()), 25_000);
 
       cleanup = () => {

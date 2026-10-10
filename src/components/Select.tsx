@@ -23,6 +23,7 @@ const textOf = (n: ReactNode): string =>
  * so this is a button + listbox with the same keyboard behaviour: arrows, Home/End, Enter, Esc and type-to-jump.
  * The list is portalled to <body> so it isn't clipped inside the scrollable register dialog.
  */
+// native select එක style කරන්න බෑ, chrome එකේ නිල් පාටට එනවා. ඒකයි මේක හැදුවේ
 export function Select({ value, onChange, children, className, placeholder = "Choose…", ...rest }: Props) {
   const options: Opt[] = Children.toArray(children)
     .filter((c): c is ReactElement<{ value?: string | number; children?: ReactNode }> => isValidElement(c))

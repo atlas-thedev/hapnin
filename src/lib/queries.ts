@@ -126,6 +126,7 @@ type NewRegistration = {
 };
 
 /** Seat-safe registration: locks the event row so two people can't grab the last seat. */
+// for update දාපු නිසා එකම වෙලාවේ දෙන්නෙක් register උනත් අන්තිම සීට් එක එක්කෙනෙක්ට විතරයි යන්නේ
 export async function register(slug: string, input: NewRegistration) {
   const client = await pool.connect();
   try {

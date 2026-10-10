@@ -5,6 +5,7 @@ const H = 3600_000;
 const D = 24 * H;
 const now = Date.now();
 // Anchor future events to 8:00 AM Colombo on a given day offset.
+// දවස් අද ඉඳන් ගණන් කරන නිසා ඩෙමෝ එක කවදා පෙන්නුවත් events "ළඟදී එන" විදිහටම පේනවා
 const day = (offset, hour = 8, minute = 0) => {
   const d = new Date(now + offset * D);
   const base = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), hour - 5, minute - 30);
